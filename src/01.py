@@ -1,15 +1,7 @@
 # Advent of Code 2016 Day 1
 
-def open_input(filename):
-
-    f = open(filename, "r")
-
-    return f.read()
-
-def calculate_manhattan(p, q):
-    """ Calculating and returning the manhattan distance between two points, p and q. The function expects two points in 2D space, as lists"""
-
-    return ( abs(p[0]-q[0]) + abs(p[1]-q[1]) )
+from tools import files
+from tools import points
 
 def turn(direction, facing):
     """ This fuction turns 90 degrees left or right, and returns the new direction you're facing."""
@@ -160,13 +152,13 @@ def test(input, expected):
     p = [1, 1, "N"]
     q = [2, 3, "S"]
 
-    if calculate_manhattan(p, q) == 3:
+    if points.calculate_manhattan(p, q) == 3:
         print("Manhattan works!")
 
     p = [0, 0, "N"]
     q = parse_input_part1(input, p)
 
-    if calculate_manhattan(p, q) == expected:
+    if points.calculate_manhattan(p, q) == expected:
         print("Parsing works!")
 
 #test("R2, L3", 5)
@@ -175,12 +167,12 @@ def test(input, expected):
 
 # Part 1
 
-input = open_input("input/01.txt")
+input = files.open_input("input/01.txt")
 origin = [0, 0, "N"]
 
 q = parse_input_part1(input, origin)
 
-result = calculate_manhattan(origin, q)
+result = points.calculate_manhattan(origin, q)
 
 print("Part 1: The distance to Bunny HQ is {}".format(result))
 
@@ -190,6 +182,6 @@ print("Part 1: The distance to Bunny HQ is {}".format(result))
 
 q = parse_input_part2(input, origin)
 
-result = calculate_manhattan(origin, q)
+result = points.calculate_manhattan(origin, q)
 
 print("Part 2: The distance to Bunny HQ is {}".format(result))
