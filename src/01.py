@@ -49,9 +49,8 @@ def parse_input_part1(input, p):
 
         direction = instruction[0]
         distance = int(instruction[1:])
-        facing = q[2]
 
-        q[2] = turn(direction, facing)
+        q[2] = turn(direction, q[2])
 
         match q[2]:
             case "N":
@@ -80,90 +79,47 @@ def parse_input_part2(input, p):
 
         direction = instruction[0]
         distance = int(instruction[1:])
-        facing = q[2]
 
-        q[2] = turn(direction, facing)
+        q[2] = turn(direction, q[2])
+
+        moving = []
 
         match q[2]:
             
             case "N":
-                
-                for x in range(q[1]+1, q[1]+distance+1):
-                    check = (q[0], x)
-                
-                    if check in visited:
-                        q[1] = x
-                        return q
-                    
-                    visited.add(check)
-                
-                q[1] += distance
+                moving = [0, distance, 1]
 
             case "E":
-            
-                for x in range(q[0]+1, q[0]+distance+1):
-            
-                    check = (x, q[1])
-            
-                    if check in visited:
-                        q[0] = x                
-                        return q
-                    
-                    visited.add(check)
-            
-                q[0] += distance
+                moving = [distance, 0, 1]
             
             case "S":
-            
-                for x in range(q[1]-1, q[1]-distance-1, -1):
-            
-                    check = (q[0], x)
-            
-                    if check in visited:
-                        q[1] = x                
-                        return q
-
-                    visited.add(check)                                
-            
-                q[1] -= distance
-            
+                moving = [0, -distance, -1]
+                
             case "W":
-            
-                for x in range(q[0]-1, q[0]-distance-1, -1):
-            
-                    check = (x, q[1])
-            
-                    if check in visited:
-                        q[0] = x                
-                        return q
-
-                    visited.add(check)           
-            
-                q[0] -= distance
+                moving = [-distance, 0, -1]
 
             case _: 
                exit(4)
 
+        for x in range (q[0], q[0]+moving[0]+moving[2], moving[2]):
+            for y in range(q[1], q[1]+moving[1]+moving[2], moving[2]):
+    
+                if x == q[0] and y == q[1]:
+                    continue
+
+                check = (x, y)
+
+                if check in visited:
+                    q[0] = x
+                    q[1] = y
+                    return q
+
+                visited.add(check)
+
+        q[0] += moving[0]
+        q[1] += moving[1]
+
     return q
-
-def test(input, expected):
-    """Testing that our part 1 functions gives the expected results. The function takes a string (to parse) as the argument, and the expected result of the manhattan calculation"""
-
-    p = [1, 1, "N"]
-    q = [2, 3, "S"]
-
-    if points.calculate_manhattan(p, q) == 3:
-        print("Manhattan works!")
-
-    p = [0, 0, "N"]
-    q = parse_input_part1(input, p)
-
-    if points.calculate_manhattan(p, q) == expected:
-        print("Parsing works!")
-
-#test("R2, L3", 5)
-#test("R2, R2, R2", 2)
-#test("R5, L5, R5, R3", 12)
 
 # Part 1
 
@@ -177,8 +133,6 @@ result = points.calculate_manhattan(origin, q)
 print("Part 1: The distance to Bunny HQ is {}".format(result))
 
 # Part 2
-
-#input = "R8, R4, R4, R8"
 
 q = parse_input_part2(input, origin)
 
