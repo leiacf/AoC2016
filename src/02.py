@@ -13,7 +13,6 @@ def find_spot(start, grid):
 
     return (-1, -1)
 
-
 def move_part_1(input, start):
 
     grid = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
