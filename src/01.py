@@ -167,7 +167,7 @@ def test(input, expected):
 
 # Part 1
 
-input = files.open_input("input/01.txt")
+input = files.input_as_string("input/01.txt")
 origin = [0, 0, "N"]
 
 q = parse_input_part1(input, origin)
