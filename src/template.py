@@ -9,7 +9,7 @@ def part1(input):
 
 def part2(input):
 
-    print("Part 1: {}".format(1))    
+    print("Part 2: {}".format(1))    
 
 filename = "input/XX.txt"
 #input = files.input_as_list(filename)
