@@ -1,6 +1,7 @@
 #Advent of Code 2016 Day 14
 
 import hashlib
+import time
 
 def createMd5(salt, number):
     return hashlib.md5((salt+str(number)).encode()).hexdigest()
@@ -65,44 +66,57 @@ def check_stretch(md5, salt, number):
                         
     return valid
 
+def part1(input):
+
+    i = 0
+    counter = 0
+
+    while counter < 65:
+        test = createMd5(input, i)
+        
+        if check(test, input, i):
+            counter += 1
+        
+        if counter == 64:
+            break
+
+        i += 1
+
+    print("Part 1: The index that creates the 64th key is {}".format(i))
+
+def part2(input):
+
+    i = 0
+    counter = 0
+    
+    while counter < 65:
+        
+        test = createMd5(input, i)
+        test = stretch(test, 2016)
+        
+        if check_stretch(test, input, i):
+            counter += 1
+        
+        if counter == 64:
+            break
+
+        i += 1
+
+    print("Part 2: The index that creates the 64th key is {}".format(i))
+
+print()
+
 input = "yjdafjpo"
-#input = "abc"
-
-# Part 1
-
-i = 0
-counter = 0
-
-while counter < 65:
-    test = createMd5(input, i)
-    
-    if check(test, input, i):
-        counter += 1
-    
-    if counter == 64:
-        break
-
-    i += 1
-
-print("Part 1: The index that creates the 64th key is {}".format(i))
-
-# Part 2
-
-i = 0
-counter = 0
 stretched = {}
 
-while counter < 65:
-    
-    test = createMd5(input, i)
-    test = stretch(test, 2016)
-    
-    if check_stretch(test, input, i):
-        counter += 1
-    
-    if counter == 64:
-        break
+start1 = time.perf_counter()
+part1(input)
+end1 = time.perf_counter()
 
-    i += 1
+start2 = time.perf_counter()
+part2(input)
+end2 = time.perf_counter()
 
-print("Part 2: The index that creates the 64th key is {}".format(i))
+print()
+print("Spent {:>7.2f} seconds on Part 1".format(end1-start1))
+print("Spent {:>7.2f} seconds on Part 2".format(end2-start2))
