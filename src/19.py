@@ -1,6 +1,7 @@
 #Advent of Code 2016 Day 19
 
 import time
+import collections
 
 def trick(input):
 
@@ -21,7 +22,33 @@ def part1(input):
 
 def part2(input):
 
-    print("Part 2: {}".format(1))    
+    # Had to ask the internet for this one, at least I understood the solution
+
+    left = collections.deque()
+    right = collections.deque()
+
+    for x in range(1, input+1):
+        if x < (input / 2) + 1:
+            left.append(x)
+        else:
+            right.appendleft(x)
+
+    while left and right:
+
+        if len(left) > len(right):
+            left.pop()
+        else:
+            right.pop()
+
+        right.appendleft(left.popleft())
+        left.append(right.pop())
+
+    if left:
+        victor = left[0]
+    else:
+        victor = right[0]
+
+    print("Part 2: The elf with all the presents is elf number {}".format(victor))
 
 input = 3005290
 #input = 5
